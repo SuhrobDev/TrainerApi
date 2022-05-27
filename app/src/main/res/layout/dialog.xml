@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Name"
+        android:textColor="@color/black"
+        android:textColorHint="#716969"
+        android:textSize="24sp"/>
+
+    <EditText
+        android:id="@+id/surname"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Surname"
+        android:textColor="@color/black"
+        android:textColorHint="#716969"
+        android:textSize="24sp"/>
+
+    <EditText
+        android:inputType="numberDecimal"
+        android:id="@+id/salary"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:hint="Salary"
+        android:textColor="@color/black"
+        android:textColorHint="#716969"
+        android:textSize="24sp"/>
+</androidx.appcompat.widget.LinearLayoutCompat>
