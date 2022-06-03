@@ -2,23 +2,33 @@ package com.example.newtrainerapp.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.newtrainerapp.dialog.AddStudentDialog
-import com.example.newtrainerapp.dialog.EditStudentDialog
 import com.example.newtrainerapp.R
 import com.example.newtrainerapp.adapter.TrainerAdapter
+import com.example.newtrainerapp.controller.Extensions
 import com.example.newtrainerapp.databinding.FragmentTrainerBinding
-import com.example.newtrainerapp.entity.Trainer
+import com.example.newtrainerapp.dialog.AddStudentDialog
+import com.example.newtrainerapp.dialog.EditStudentDialog
+import com.example.newtrainerapp.dto.TrainerDto
 import com.example.newtrainerapp.mvvm.ActivityViewModel
 import com.example.newtrainerapp.retrofit.models.request.TrainerRequest
+import com.example.newtrainerapp.utils.SharedPref
+import okhttp3.internal.notify
 
 class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBinding::inflate) {
     private lateinit var viewModel: ActivityViewModel
+
+    private val sharedPref by lazy {
+        SharedPref(requireContext())
+    }
 
     private val adapter by lazy {
         TrainerAdapter()
@@ -48,10 +58,10 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         }
 
         binding.swipe.setOnRefreshListener {
-            viewModel.getAllTrainer(requireContext())
+            viewModel.getAllTrainer()
         }
 
-        viewModel.getAllTrainer(requireContext())
+        viewModel.getAllTrainer()
 
         binding.add.setOnClickListener {
             val addDialog = AddStudentDialog(requireContext())
@@ -59,13 +69,17 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
             addDialog.setOnAddListener { name, surname, salary ->
                 viewModel.insertTrainer.observe(requireActivity()) {
                     adapter.insertData(it!!)
-                    id = it.trainerId
+                    id = it.id
                 }
                 viewModel.insertTrainer(TrainerRequest(name, salary.toDouble(), surname), id)
             }
             addDialog.show()
         }
 
+        binding.logOut.setOnClickListener {
+            Extensions.controller?.startMainFragment(LoginFragment())
+            sharedPref.setToken("")
+        }
         adapter.setMoreClickListener { trainer, pos, view, id ->
             val menu = PopupMenu(requireContext(), view)
             Toast.makeText(requireContext(), "$id", Toast.LENGTH_SHORT).show()
@@ -75,9 +89,9 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
                     R.id.edit -> {
                         val edit = EditStudentDialog(
                             requireContext(),
-                            trainer.name,
-                            trainer.surname,
-                            trainer.salary.toString()
+                            trainer.trainerName,
+                            trainer.trainerSurname,
+                            trainer.trainerSalary.toString()
                         )
                         edit.setOnAddListener { name, surname, salary ->
 
@@ -126,20 +140,21 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val pos = viewHolder.layoutPosition
-//                val trainer by lazy {
-//                    Trainer(0,)
-//                }
                 when (direction) {
                     ItemTouchHelper.LEFT -> {
                         //delete
-                        deleteDialog(requireContext(), pos,/*viewModel.getAllTrainer(requireContext())*/ adapter.data[pos])
+                        deleteDialog(
+                            requireContext(),
+                            pos,/*viewModel.getAllTrainer(requireContext())*/
+                            adapter.data[pos]
+                        )
                     }
                     ItemTouchHelper.RIGHT -> {
                         //edit
                         val edit = EditStudentDialog(
                             requireContext(),
-                            adapter.data[pos].name, adapter.data[pos].surname,
-                            adapter.data[pos].salary.toString()
+                            adapter.data[pos].trainerName, adapter.data[pos].trainerSurname,
+                            adapter.data[pos].trainerSalary.toString()
                         )
                         edit.setOnAddListener { name, surname, salary ->
 
@@ -147,7 +162,6 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
                                 adapter.updateData(trainer, pos)
                             }
 
-                            Toast.makeText(requireContext(), "$id", Toast.LENGTH_SHORT).show()
                             viewModel.updateTrainer(
                                 TrainerRequest(
                                     name,
@@ -155,6 +169,8 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
                                     surname
                                 ), id, adapter.data[pos].id
                             )
+                            Toast.makeText(requireContext(), "edited!", Toast.LENGTH_SHORT).show()
+
                             adapter.notifyItemInserted(pos)
                         }
                         edit.show()
@@ -163,19 +179,37 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
             }
         }
 
-    private fun deleteDialog(context: Context, position: Int, trainer: Trainer) {
+    private fun deleteDialog(context: Context, position: Int, trainer: TrainerDto) {
         val delete = AlertDialog.Builder(context)
         delete.setTitle("Confirm delete")
         delete.setMessage("You want delete student")
         delete.setPositiveButton("Yes") { p0, _ ->
             viewModel.deleteTrainer(trainer)
             adapter.deleteData(position)
-            adapter.notifyItemRemoved(position)
+//            adapter.notifyItemRemoved(position)
+            Toast.makeText(requireContext(), "deleted!", Toast.LENGTH_SHORT).show()
             p0?.dismiss()
         }
         delete.setNegativeButton(
             "No"
-        ) { p0, _ -> p0?.dismiss() }
+        ) { p0, _ ->
+            adapter.notify()
+            p0?.dismiss()
+        }
         delete.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.logout) {
+            //logic for logout
+            Extensions.controller?.startMainFragment(LoginFragment())
+            return true
+        }
+        return true
     }
 }

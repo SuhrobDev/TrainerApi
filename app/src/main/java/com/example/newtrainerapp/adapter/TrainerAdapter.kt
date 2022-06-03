@@ -6,66 +6,69 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newtrainerapp.databinding.ItemTrainerBinding
-import com.example.newtrainerapp.entity.Trainer
-import com.example.newtrainerapp.retrofit.models.response.TrainerResponse
+import com.example.newtrainerapp.dto.TrainerDto
 
 class TrainerAdapter : RecyclerView.Adapter<TrainerAdapter.TrainerHolder>() {
-    var data = ArrayList<Trainer>()
+    var data = ArrayList<TrainerDto>()
 
-    inner class TrainerHolder(var binding: ItemTrainerBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(data: Trainer){
-            binding.tvName.text = data.name
-            binding.tvSurname.text = data.surname
-            binding.tvSalary.text = data.salary.toString()
+    inner class TrainerHolder(var binding: ItemTrainerBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(data: TrainerDto) {
+            binding.tvName.text = data.trainerName
+            binding.tvSurname.text = data.trainerSurname
+            binding.tvSalary.text = data.trainerSalary.toString()
 
             binding.rootLayout.setOnClickListener {
-                moreClickListener?.invoke(data,adapterPosition,it!!,data.trainerId)
+                moreClickListener?.invoke(data, adapterPosition, it!!, data.id)
             }
         }
     }
 
-    private var moreClickListener: ((trainer: Trainer, pos:Int, view:View, id:Int) -> Unit)? = null
+    private var moreClickListener: ((trainer: TrainerDto, pos: Int, view: View, id: Int) -> Unit)? =
+        null
 
-    fun setMoreClickListener(f: (trainer: Trainer, pos:Int, view:View, id:Int) -> Unit) {
+    fun setMoreClickListener(f: (trainer: TrainerDto, pos: Int, view: View, id: Int) -> Unit) {
         moreClickListener = f
     }
 
-    private var deleteClickListener: ((id:Int, position: Int) -> Unit)? = null
+    private var deleteClickListener: ((id: Int, position: Int) -> Unit)? = null
 
-    fun setDeleteClickListener(f: (id:Int, position: Int) -> Unit) {
+    fun setDeleteClickListener(f: (id: Int, position: Int) -> Unit) {
         deleteClickListener = f
     }
 
-    private var editClickListener: ((id:Int, position: Int, data: TrainerResponse) -> Unit)? = null
+    private var editClickListener: ((id: Int, position: Int, data: TrainerDto) -> Unit)? = null
 
-    fun setEditClickListener(f: (id:Int, position: Int, data: TrainerResponse) -> Unit) {
+    fun setEditClickListener(f: (id: Int, position: Int, data: TrainerDto) -> Unit) {
         editClickListener = f
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TrainerHolder(
-        ItemTrainerBinding.inflate(LayoutInflater.from(parent.context),parent,false))
+        ItemTrainerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 
-    override fun onBindViewHolder(holder: TrainerHolder, position: Int) = holder.bind(data[position])
+    override fun onBindViewHolder(holder: TrainerHolder, position: Int) =
+        holder.bind(data[position])
 
     override fun getItemCount() = data.size
 
-    fun insertData(trainer: Trainer){
+    fun insertData(trainer: TrainerDto) {
         data.add(trainer)
-        notifyItemInserted(data.size-1)
+        notifyItemInserted(data.size - 1)
     }
 
-    fun updateData(trainer: Trainer, i: Int){
-        data[i] =  trainer
+    fun updateData(trainer: TrainerDto, i: Int) {
+        data[i] = trainer
         notifyItemChanged(i)
     }
 
-    fun deleteData(i:Int){
+    fun deleteData(i: Int) {
         data.removeAt(i)
         notifyItemRemoved(i)
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun getData(data:List<Trainer>){
+    fun getData(data: List<TrainerDto>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()

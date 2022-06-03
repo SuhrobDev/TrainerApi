@@ -5,17 +5,17 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "trainer")
-data class Trainer (
+data class Trainer(
     @PrimaryKey(autoGenerate = true)
-    var id :Int=0,
+    var id: Int = 0,
     @ColumnInfo(name = "type")
-    var type:Int,
+    var type: Int,
     @ColumnInfo(name = "trainer_id")
-    var trainerId:Int,
+    var trainerId: Int,
     @ColumnInfo(name = "trainer_name")
-    var name:String,
+    var name: String,
     @ColumnInfo(name = "trainer_surname")
-    var surname:String,
+    var surname: String,
     @ColumnInfo(name = "trainer_salary")
-    var salary:Double
+    var salary: Double
 )
