@@ -39,10 +39,13 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         binding.list.layoutManager = LinearLayoutManager(requireContext())
         binding.list.adapter = adapter
 
+        setHasOptionsMenu(true)
+
         binding.apply {
             list.layoutManager = LinearLayoutManager(requireContext())
             list.adapter = adapter
         }
+
         viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
 
         viewModel.trainerListViewModel.observe(requireActivity()) {
@@ -200,8 +203,8 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-            inflater.inflate(R.menu.menu, menu)
-    super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

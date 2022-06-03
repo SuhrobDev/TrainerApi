@@ -1,5 +1,6 @@
 package com.example.newtrainerapp.ui
 
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.newtrainerapp.controller.Extensions
 import com.example.newtrainerapp.databinding.FragmentLoginBinding
@@ -11,6 +12,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     override fun onViewCreated() {
         viewModel = ViewModelProvider(requireActivity())[ActivityViewModel::class.java]
+
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         binding.rLoginBtn.setOnClickListener {
             val username = binding.rUsername.text.toString()
