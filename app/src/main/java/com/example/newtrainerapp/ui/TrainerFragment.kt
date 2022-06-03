@@ -2,11 +2,14 @@ package com.example.newtrainerapp.ui
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +25,7 @@ import com.example.newtrainerapp.mvvm.ActivityViewModel
 import com.example.newtrainerapp.retrofit.models.request.TrainerRequest
 import com.example.newtrainerapp.utils.SharedPref
 import okhttp3.internal.notify
+
 
 class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBinding::inflate) {
     private lateinit var viewModel: ActivityViewModel
@@ -40,6 +44,13 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         binding.list.adapter = adapter
 
         setHasOptionsMenu(true)
+
+        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Trainers"
+
+        val colorDrawable = ColorDrawable(Color.parseColor("#0F9D58"))
+
+        // Set BackgroundDrawable
+        (activity as AppCompatActivity?)!!.supportActionBar!!.setBackgroundDrawable(colorDrawable)
 
         binding.apply {
             list.layoutManager = LinearLayoutManager(requireContext())
@@ -79,10 +90,11 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
             addDialog.show()
         }
 
-        binding.logOut.setOnClickListener {
-            Extensions.controller?.startMainFragment(LoginFragment())
-            sharedPref.setToken("")
-        }
+//        binding.logOut.setOnClickListener {
+//            Extensions.controller?.startMainFragment(LoginFragment())
+//            sharedPref.setToken("")
+//        }
+
         adapter.setMoreClickListener { trainer, pos, view, id ->
             val menu = PopupMenu(requireContext(), view)
             Toast.makeText(requireContext(), "$id", Toast.LENGTH_SHORT).show()

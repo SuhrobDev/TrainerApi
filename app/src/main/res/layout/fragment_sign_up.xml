@@ -78,21 +78,25 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/r_signupBtn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/round_back_theme_1000"
         android:text="Sign Up"
         android:textColor="#FFFFFF"
         android:textStyle="bold" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Log In ?"
-        android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/round_back_theme_1000"
+        android:text="Log In"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 </LinearLayout>
