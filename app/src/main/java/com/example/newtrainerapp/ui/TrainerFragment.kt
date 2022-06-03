@@ -199,10 +199,6 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         delete.show()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?,inflate: MenuInflater) {
-//        inflate.inflate(R.menu.menu, menu)
-//        return super.onCreateOptionsMenu(menu!!,inflate)
-//    }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
             inflater.inflate(R.menu.menu, menu)
     super.onCreateOptionsMenu(menu, inflater)
