@@ -2,8 +2,6 @@ package com.example.newtrainerapp.ui
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -23,16 +21,15 @@ import com.example.newtrainerapp.dialog.EditStudentDialog
 import com.example.newtrainerapp.dto.TrainerDto
 import com.example.newtrainerapp.mvvm.ActivityViewModel
 import com.example.newtrainerapp.retrofit.models.request.TrainerRequest
-import com.example.newtrainerapp.utils.SharedPref
 import okhttp3.internal.notify
 
 
 class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBinding::inflate) {
     private lateinit var viewModel: ActivityViewModel
 
-    private val sharedPref by lazy {
-        SharedPref(requireContext())
-    }
+//    private val sharedPref by lazy {
+//        SharedPref(requireContext())
+//    }
 
     private val adapter by lazy {
         TrainerAdapter()
@@ -47,10 +44,11 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
 
         (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Trainers"
 
-        val colorDrawable = ColorDrawable(Color.parseColor("#0F9D58"))
-
-        // Set BackgroundDrawable
-        (activity as AppCompatActivity?)!!.supportActionBar!!.setBackgroundDrawable(colorDrawable)
+//        val colorDrawableL = ColorDrawable(Color.parseColor("#0F9D58"))
+//        val colorDrawableN = ColorDrawable(Color.parseColor("#0F9D58"))
+//
+//        // Set BackgroundDrawable
+//        (activity as AppCompatActivity?)!!.supportActionBar!!.setBackgroundDrawable(colorDrawableL)
 
         binding.apply {
             list.layoutManager = LinearLayoutManager(requireContext())
@@ -227,4 +225,20 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         }
         return true
     }
+
+//    override fun onConfigurationChanged(newConfig: Configuration) {
+//        val colorDrawableL = ColorDrawable(Color.parseColor("#0F9D58"))
+//        val colorDrawableN = ColorDrawable(Color.parseColor("#0F9D58"))
+//
+//        when (newConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+//            Configuration.UI_MODE_NIGHT_NO -> {
+//                (activity as AppCompatActivity?)!!.supportActionBar!!.setBackgroundDrawable(colorDrawableL)
+//            } // Night mode is not active, we're using the light theme
+//            Configuration.UI_MODE_NIGHT_YES -> {
+//                (activity as AppCompatActivity?)!!.supportActionBar!!.setBackgroundDrawable(colorDrawableN)
+//
+//            } // Night mode is active, we're using dark theme
+//        }
+//
+//    }
 }
