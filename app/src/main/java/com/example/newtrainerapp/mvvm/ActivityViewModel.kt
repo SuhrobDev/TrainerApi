@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.newtrainerapp.controller.Extensions
 import com.example.newtrainerapp.dto.TrainerDto
 import com.example.newtrainerapp.repository.ActivityRepository
 import com.example.newtrainerapp.retrofit.models.BaseNetworkResult
@@ -13,6 +14,7 @@ import com.example.newtrainerapp.retrofit.models.request.TrainerRequest
 import com.example.newtrainerapp.retrofit.models.response.LogInResponse
 import com.example.newtrainerapp.retrofit.models.response.SignUpResponse
 import com.example.newtrainerapp.room.AppDatabase
+import com.example.newtrainerapp.ui.TrainerFragment
 
 class ActivityViewModel : ViewModel() {
     private val repository = ActivityRepository()
@@ -150,6 +152,7 @@ class ActivityViewModel : ViewModel() {
             when (it) {
                 is BaseNetworkResult.Success -> {
                     _logIn.value = it.data!!
+//                    Extensions.controller?.startMainFragment(TrainerFragment())
                 }
                 is BaseNetworkResult.Error -> {
                     _errorViewModel.value = it.message
@@ -170,6 +173,7 @@ class ActivityViewModel : ViewModel() {
             when (it) {
                 is BaseNetworkResult.Success -> {
                     _signUp.value = it.data!!
+//                    Extensions.controller?.getLastFragment()
                 }
                 is BaseNetworkResult.Error -> {
                     _errorViewModel.value = it.message

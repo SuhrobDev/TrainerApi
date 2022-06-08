@@ -21,15 +21,15 @@ import com.example.newtrainerapp.dialog.EditStudentDialog
 import com.example.newtrainerapp.dto.TrainerDto
 import com.example.newtrainerapp.mvvm.ActivityViewModel
 import com.example.newtrainerapp.retrofit.models.request.TrainerRequest
+import com.example.newtrainerapp.utils.SharedPref
 import okhttp3.internal.notify
-
 
 class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBinding::inflate) {
     private lateinit var viewModel: ActivityViewModel
 
-//    private val sharedPref by lazy {
-//        SharedPref(requireContext())
-//    }
+    private val sharedPref by lazy {
+        SharedPref(requireContext())
+    }
 
     private val adapter by lazy {
         TrainerAdapter()
@@ -42,7 +42,7 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
 
         setHasOptionsMenu(true)
 
-        (activity as AppCompatActivity?)!!.supportActionBar!!.title = "Trainers"
+        (activity as AppCompatActivity?)?.supportActionBar?.title = "Trainers"
 
 //        val colorDrawableL = ColorDrawable(Color.parseColor("#0F9D58"))
 //        val colorDrawableN = ColorDrawable(Color.parseColor("#0F9D58"))
@@ -221,6 +221,9 @@ class TrainerFragment : BaseFragment<FragmentTrainerBinding>(FragmentTrainerBind
         if (item.itemId == R.id.logout) {
             //logic for logout
             Extensions.controller?.startMainFragment(LoginFragment())
+            sharedPref.setToken("")
+            sharedPref.setPassword("")
+            sharedPref.setUserName("")
             return true
         }
         return true

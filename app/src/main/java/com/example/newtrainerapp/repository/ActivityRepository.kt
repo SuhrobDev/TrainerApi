@@ -2,6 +2,7 @@ package com.example.newtrainerapp.repository
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.newtrainerapp.controller.Extensions
@@ -17,6 +18,7 @@ import com.example.newtrainerapp.retrofit.models.response.LogInResponse
 import com.example.newtrainerapp.retrofit.models.response.SignUpResponse
 import com.example.newtrainerapp.retrofit.models.response.TrainerResponse
 import com.example.newtrainerapp.room.AppDatabase
+import com.example.newtrainerapp.ui.LoginFragment
 import com.example.newtrainerapp.ui.TrainerFragment
 import com.example.newtrainerapp.utils.SharedPref
 import retrofit2.Call
@@ -241,11 +243,14 @@ class ActivityRepository {
                 call: Call<SignUpResponse>,
                 response: Response<SignUpResponse>
             ) {
-                if (response.isSuccessful) {
+                if (response.code()==200) {
                     response.body()?.let {
                         liveData.value = BaseNetworkResult.Success(it)
                         logIn(logInRequest, context)
+                        Extensions.controller?.startMainFragment(LoginFragment())
                     }
+                }else{
+                    Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -274,12 +279,16 @@ class ActivityRepository {
                             Log.d("TTTT", "language: ${sharedPref.getToken()}")
                             liveData.value = BaseNetworkResult.Success(it)
                         }
-                        Extensions.controller?.replaceFragment(TrainerFragment())
+                        Extensions.controller?.startMainFragment(TrainerFragment())
+                    }else if (response.code()==401){
+                        Toast.makeText(context, "user is not recognized", Toast.LENGTH_SHORT).show()
+                    }else if (response.code()==400){
+                        Toast.makeText(context, "bad request", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<LogInResponse>, t: Throwable) {
-
+                    Toast.makeText(context, "error occurred!", Toast.LENGTH_SHORT).show()
                 }
             })
         return liveData

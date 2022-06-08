@@ -34,6 +34,22 @@ class SharedPref(context: Context) {
         editor.apply()
     }
 
+    fun setUserName(username: String) {
+        editor = preferences.edit()
+        editor.putString("UserName", username)
+        editor.apply()
+    }
+
+    fun getUserName() = preferences.getString("UserName", "")
+
+    fun setPassword(password: String) {
+        editor = preferences.edit()
+        editor.putString("password", password)
+        editor.apply()
+    }
+
+    fun getPassword() = preferences.getString("password", "")
+
     fun getLangSelected() = preferences.getBoolean("IS_SELECTED", false)
 
 }

@@ -29,6 +29,7 @@
         android:maxLines="1"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:textColor="#676464"
         android:textSize="16sp" />
 
     <EditText
@@ -44,6 +45,7 @@
         android:maxLines="1"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:textColor="#676464"
         android:textSize="16sp" />
 
     <EditText
@@ -59,6 +61,7 @@
         android:maxLines="1"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:textColor="#676464"
         android:textSize="16sp" />
 
     <EditText
@@ -74,6 +77,7 @@
         android:maxLines="1"
         android:paddingStart="20dp"
         android:paddingEnd="0dp"
+        android:textColor="#676464"
         android:textSize="16sp" />
 
     <androidx.appcompat.widget.AppCompatButton

@@ -2,6 +2,8 @@ package com.example.newtrainerapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.newtrainerapp.controller.Extensions
 import com.example.newtrainerapp.databinding.ActivityMainBinding
 import com.example.newtrainerapp.ui.SignUpFragment
@@ -9,7 +11,7 @@ import com.example.newtrainerapp.ui.TrainerFragment
 import com.example.newtrainerapp.utils.SharedPref
 
 class MainActivity : AppCompatActivity() {
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val shared by lazy {
         SharedPref(this)
     }
@@ -19,11 +21,14 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+//        setupActionBarWithNavController(findNavController(R.id.fragment))
+
         Extensions.init(R.id.container, supportFragmentManager)
         if (shared.getToken() != "") {
-            Extensions.controller?.replaceFragment(TrainerFragment())
+            Extensions.controller?.startMainFragment(TrainerFragment())
         } else {
-            Extensions.controller?.replaceFragment(SignUpFragment())
+            Extensions.controller?.startMainFragment(SignUpFragment())
         }
+
     }
 }

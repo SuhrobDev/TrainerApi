@@ -3,24 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/listFragment">
+    app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/listFragment"
-        android:name="com.example.newtrainerapp.data.fragments.list.ListFragment"
+        android:id="@+id/loginFragment"
+        android:name="com.example.newtrainerapp.ui.LoginFragment"
         android:label="List"
-        tools:layout="@layout/fragment_list" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_listFragment_to_addFragment"
-            app:destination="@id/addFragment" />
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_trainerFragment"
+            app:destination="@id/trainerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addFragment"
-        android:name="com.example.newtrainerapp.data.fragments.add.AddFragment"
+        android:id="@+id/signupFragment"
+        android:name="com.example.newtrainerapp.ui.SignUpFragment"
         android:label="Add"
-        tools:layout="@layout/fragment_add" >
+        tools:layout="@layout/fragment_sign_up">
         <action
             android:id="@+id/action_addFragment_to_listFragment"
-            app:destination="@id/listFragment" />
+            app:destination="@id/loginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/trainerFragment"
+        android:name="com.example.newtrainerapp.ui.TrainerFragment"
+        android:label="fragment_trainer"
+        tools:layout="@layout/fragment_trainer" />
+
 </navigation>
